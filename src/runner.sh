@@ -25,17 +25,45 @@ function Runner::callTestFunctions() {
   fi
 }
 
+function Runner::parseExecutionResult() {
+  local execution_result=$1
+
+echo $execution_result
+  local assertions_failed=$(echo $execution_result | sed -E -e 's/.*##ASSERTIONS_FAILED=([0-9]*)##.*/\1/g')
+  local assertions_passed=$(echo $execution_result | sed -E -e 's/.*##ASSERTIONS_PASSED=([0-9]*)##.*/\1/g')
+
+  local TMP_ASSERTIONS_PASSED=$((_ASSERTIONS_PASSED + assertions_passed))
+  local TMP_ASSERTIONS_FAILED=$((_ASSERTIONS_FAILED + assertions_failed))
+
+  _ASSERTIONS_PASSED=$TMP_ASSERTIONS_PASSED
+  _ASSERTIONS_FAILED=$TMP_ASSERTIONS_FAILED
+}
+
 function Runner::runTest() {
   local function_name="$1"
   local current_assertions_failed
+  local test_result_code=0
   current_assertions_failed="$(State::getAssertionsFailed)"
 
-  Runner::runSetUp
-  "$function_name"
-  Runner::runTearDown
+  local test_execution_result=$(
+    set -e
+    Runner::runSetUp
+    "$function_name"
+    Runner::runTearDown
+    
+    State::exportAssertionsCount
+  )
+  local test_result_code=$?
+  Runner::parseExecutionResult "$test_execution_result"
 
   if [[ "$current_assertions_failed" != "$(State::getAssertionsFailed)" ]]; then
     State::addTestsFailed
+    return
+  fi
+
+  if [[ $test_result_code -ne 0 ]]; then
+    State::addTestsFailed
+    Console::printErrorTest "$function_name" "$test_result_code"
     return
   fi
 
@@ -43,6 +71,7 @@ function Runner::runTest() {
   Console::printSuccessfulTest "${label}"
   State::addTestsPassed
 }
+
 function Runner::loadTestFiles() {
   local filter=$1
   local files=("${@:2}") # Store all arguments starting from the second as an array

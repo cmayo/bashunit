@@ -12,6 +12,8 @@ function assertEquals() {
   fi
 
   State::addAssertionsPassed
+  
+  return 0
 }
 
 function assertEmpty() {
@@ -25,6 +27,8 @@ function assertEmpty() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertNotEmpty() {
@@ -38,6 +42,8 @@ function assertNotEmpty() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertNotEquals() {
@@ -52,6 +58,8 @@ function assertNotEquals() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertContains() {
@@ -66,6 +74,8 @@ function assertContains() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertNotContains() {
@@ -80,6 +90,8 @@ function assertNotContains() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertMatches() {
@@ -94,6 +106,8 @@ function assertMatches() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertNotMatches() {
@@ -108,6 +122,8 @@ function assertNotMatches() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertExitCode() {
@@ -122,6 +138,8 @@ function assertExitCode() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertSuccessfulCode() {
@@ -136,6 +154,8 @@ function assertSuccessfulCode() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertGeneralError() {
@@ -150,6 +170,8 @@ function assertGeneralError() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 
@@ -165,6 +187,8 @@ function assertCommandNotFound() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertArrayContains() {
@@ -180,6 +204,8 @@ function assertArrayContains() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }
 
 function assertArrayNotContains() {
@@ -195,4 +221,6 @@ function assertArrayNotContains() {
   fi
 
   State::addAssertionsPassed
+
+  return 0
 }

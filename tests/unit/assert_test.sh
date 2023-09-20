@@ -113,9 +113,11 @@ function test_unsuccessful_return_assertExitCode() {
     return 1
   }
 
-  fake_function
-
-  assertExitCode "1"
+  (
+    set +e
+    fake_function
+    assertExitCode "1"
+  )
 }
 
 function test_successful_assertSuccessfulCode() {
