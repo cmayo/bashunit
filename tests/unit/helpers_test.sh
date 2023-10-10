@@ -105,3 +105,25 @@ function test_normalize_variable_name() {
   assert_equals "_variable" "$(helper::normalize_variable_name "_variable")"
   assert_equals "__________" "$(helper::normalize_variable_name "!@#$%^&*()")"
 }
+
+function fake_provider_data() {
+  echo "data_provided"
+}
+
+function test_get_provider_data() {
+  # provider fake_provider_data
+  function fake_function_get_provider_data() {
+    return 0
+  }
+
+  assert_equals "data_provided" "$(helper::get_provider_data "fake_function_get_provider_data" "${BASH_SOURCE[0]}")"
+}
+
+function test_get_provider_data_will_fail_when_not_exists_provider_function() {
+  # provider not_existing_provider
+  function fake_function_get_not_existing_provider_data() {
+    return 0
+  }
+
+  assert_general_error "$(helper::get_provider_data "fake_function_get_not_existing_provider_data" "${BASH_SOURCE[0]}")"
+}
