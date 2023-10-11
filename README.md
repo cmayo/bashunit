@@ -45,3 +45,30 @@ Make sure to read our [contribution guide](.github/CONTRIBUTING.md) where you wi
 <p align="center">
     <img src="https://contributors.nn.ci/api?repo=TypedDevs/bashunit" alt="Contributors list" />
 </p>
+
+
+This is a **proof of concept** PR of a simple data provider for test functions.
+
+The main idea is having an "annotation" just before the test function where we can specify the data provider function as this:
+
+```
+# provider function_data_provider
+function test_my_function_test() {
+  ...
+}
+```
+
+This function_data_provider can return a single or a list of values. Those are two examples of data provider:
+
+```
+function provider_test_data_array() {
+  local data=("one" "two" "three")  
+  echo "${data[@]}" 
+}
+
+function provider_test_data_single_value() {
+  echo "one" 
+}
+```
+
+The test function will receive the data provided in the $1 parameter.
