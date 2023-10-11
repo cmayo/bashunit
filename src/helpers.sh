@@ -134,10 +134,10 @@ function helper::get_provider_data() {
   fi
 
   provider_function=$(\
-    grep -B 1 "function $function_name" "$script"|grep "# provider "|sed -E -e 's/\ *# provider (.*)$/\1/g'\
+    grep -B 1 "function $function_name()" "$script"|grep "# provider "|sed -E -e 's/\ *# provider (.*)$/\1/g'\
   )
 
   if [[ -n "$provider_function" ]]; then
-    "$provider_function"
+    helper::execute_function_if_exists "$provider_function"
   fi
 }
